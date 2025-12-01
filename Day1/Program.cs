@@ -1,28 +1,46 @@
-﻿var lines = File.ReadAllLines("input/input1");
+﻿Console.Clear();
 
+var lines = File.ReadAllLines("input/input2");
 
-int password = 0;
+int zeros = 0;
 int position = 50;
-Console.WriteLine(position);
 
 foreach (var line in lines)
 {
+    Console.WriteLine("# " + line);
     int number = int.Parse(line[1..]);
 
-    if (line[0] == 'L') number = -number;
+    bool isLeft = line[0] == 'L';
 
-    position += number;
+    int fullLoops = number / 100;
+    zeros += fullLoops;
 
-    position %= 100;
-    if (position < 0) position += 100;
+    int rem = number % 100;
+    if (isLeft)
+    {
+        if (position > 0 && position - rem < 0)
+        {
+            zeros += 1;
+        }
+    }
+    else
+    {
+        if (position + rem > 100)
+        {
+            zeros += 1;
+        }
+    }
 
-    Console.WriteLine(position);
+    rem = isLeft ? 100 - rem : rem;
+
+    position = (position + rem) % 100;
+
 
     if (position == 0)
     {
-        password++;
+        zeros += 1;
     }
 }
 
 Console.WriteLine();
-Console.WriteLine(password);
+Console.WriteLine("Password: " + zeros);
