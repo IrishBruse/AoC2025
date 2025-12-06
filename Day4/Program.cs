@@ -3,10 +3,10 @@
 var sample = File.ReadAllText("input/sample.txt");
 var input = File.ReadAllText("input/input.txt");
 
-// Console.WriteLine("Part 1");
-// Console.WriteLine("sample(13) = " + Part1(sample));
-// Console.WriteLine("answer = " + Part1(input));
-// Console.WriteLine();
+Console.WriteLine("Part 1");
+Console.WriteLine("sample(13) = " + Part1(sample));
+Console.WriteLine("answer = " + Part1(input));
+Console.WriteLine();
 
 Console.WriteLine("Part 2");
 long sampleNumber = Part2(sample);
@@ -29,9 +29,6 @@ Console.WriteLine("Tests");
 Console.WriteLine("98 = " + GetNeighbours(grid, 3, 3, 1, 1));
 Console.WriteLine("98 = " + GetNeighbours(grid, 3, 3, 0, 0));
 Console.WriteLine("98 = " + GetNeighbours(grid, 3, 3, 2, 2));
-// Console.WriteLine("89 = " + GetLargest("811111111111119", 2));
-// Console.WriteLine("78 = " + GetLargest("234234234234278", 2));
-// Console.WriteLine("92 = " + GetLargest("818181911112111", 2));
 Console.WriteLine();
 
 long Part1(string input)
