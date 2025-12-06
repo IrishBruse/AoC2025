@@ -3,25 +3,27 @@
 var sample = File.ReadAllText("input/sample.txt");
 var input = File.ReadAllText("input/input.txt");
 
-Console.WriteLine("Part 1");
-Console.WriteLine("sample(13) = " + Part1(sample));
-Console.WriteLine("answer = " + Part1(input));
-Console.WriteLine();
-
-// Console.WriteLine("Part 2");
-// Console.WriteLine("sample = " + Part2(sample));
-// Console.WriteLine("answer = " + Part2(input));
+// Console.WriteLine("Part 1");
+// Console.WriteLine("sample(13) = " + Part1(sample));
+// Console.WriteLine("answer = " + Part1(input));
 // Console.WriteLine();
+
+Console.WriteLine("Part 2");
+long sampleNumber = Part2(sample);
+Console.WriteLine("sample = " + sampleNumber);
+long answerNumber = Part2(input);
+Console.WriteLine("answer = " + answerNumber);
+Console.WriteLine();
 
 
 // @.@
 // @@@
 // @.@
-string grid = string.Join("", new string[] {
+char[] grid = string.Join("", new string[] {
     "@.@",
     "@@@",
     "@.@"
-});
+}).ToCharArray();
 
 Console.WriteLine("Tests");
 Console.WriteLine("98 = " + GetNeighbours(grid, 3, 3, 1, 1));
@@ -37,12 +39,14 @@ long Part1(string input)
     int width = input.IndexOf('\n');
     int height = input.Split("\n").Length;
 
-    string grid = input.Replace("\n", "");
+    char[] grid = input.Replace("\n", "").ToCharArray();
 
     long total = 0;
 
     // ..@@.@@@@.
     // ..x..x@@@x
+
+    char[] newGrid = grid;
 
     for (int y = 0; y < height; y++)
     {
@@ -60,6 +64,8 @@ long Part1(string input)
             {
                 Console.Write(cell);
             }
+
+            newGrid[width * y + x] = '.';
         }
         Console.WriteLine();
     }
@@ -67,7 +73,7 @@ long Part1(string input)
     return total;
 }
 
-int GetNeighbours(string grid, int width, int height, int x, int y)
+int GetNeighbours(char[] grid, int width, int height, int x, int y)
 {
     int neighbours = 0;
     for (int ry = -1; ry <= 1; ry++)
@@ -94,16 +100,49 @@ int GetNeighbours(string grid, int width, int height, int x, int y)
     return neighbours;
 }
 
+
 long Part2(string input)
 {
-    var banks = input.Split("\n");
+    int width = input.IndexOf('\n');
+    int height = input.Split("\n").Length;
 
-    long total = 0;
+    char[] grid = input.Replace("\n", "").ToCharArray();
 
-    foreach (var bank in banks)
+    long removed = 0;
+
+    int removeState = 1;
+    char[] nextGrid = grid;
+    while (removeState > 0)
     {
-        // total += GetLargest(bank, 12);
+        removeState = 0;
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                int index = width * y + x;
+                char cell = grid[index];
+
+                int neighbours = GetNeighbours(grid, width, height, x, y);
+                if (neighbours < 4 && cell == '@')
+                {
+                    removeState += 1;
+                    nextGrid[index] = '.';
+                }
+                else
+                {
+                    Console.Write(cell);
+                }
+            }
+            Console.WriteLine();
+        }
+        Console.WriteLine();
+        Console.WriteLine();
+
+        Console.WriteLine(removeState);
+        removed += removeState;
+        nextGrid.CopyTo(nextGrid, 0);
     }
 
-    return total;
+    return removed;
 }
